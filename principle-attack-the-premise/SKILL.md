@@ -8,10 +8,21 @@ description: "Apply when two or more fixes that share one premise have failed th
 Apply this skill only when the user requests it or another active skill routes
 to it.
 
-When two or more fixes that share one premise have failed the same gate, suspect the premise, not the fixes.
+## When this applies
 
-- Write the premise down: the one sentence every failed fix assumed.
-- Test it before the next fix. Find an observation that would come out differently if the premise were false, and make it. Look at how the failures are distributed, not only at how large they are.
-- If the evidence contradicts the premise, look for what the failures share that it did not predict. If one part always lands on the losing side, change what puts it there instead of adding a mechanism that cleans up after it.
+When two or more fixes that share one premise have failed the same gate,
+suspect the premise, not the fixes.
 
-Do not start the next fix before the premise is written down and tested.
+## Procedure
+
+1. Write down the premise. The premise is the one sentence that every failed
+   fix assumed.
+2. Find an observation that would come out differently if the premise were
+   false. Make that observation. Look at how the failures are distributed, not
+   only at how large they are.
+3. If the evidence contradicts the premise, find what the failures share that
+   the premise did not predict.
+4. If one part always lands on the losing side, change what puts it there.
+   Do not add a mechanism that cleans up after it.
+
+Do not start the next fix before you write down the premise and test it.

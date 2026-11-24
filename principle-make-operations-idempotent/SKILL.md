@@ -8,10 +8,28 @@ description: "Apply when designing commands, lifecycle steps, or processing loop
 Apply this skill only when the user requests it or another active skill routes
 to it.
 
-Design every state-changing operation to converge to the correct state however many times it runs and wherever the previous run stopped.
+## Principle
 
-Derive each step from the state that exists, not from what the previous run meant to do. Read the current state, compare it to the goal, and apply only the difference.
+Every state-changing operation must converge to the correct state, however many
+times it runs and wherever the previous run stopped.
 
-Anything a run leaves behind (a lock, a temporary file, a half-written record, a claimed job) must be recognizable as stale by the next run, by evidence that holds wherever the previous run could have stopped. Write to a temporary path and rename it into place.
+A run can leave a lock, a temporary file, a half-written record, or a claimed
+job behind. The next run must recognise each of these as stale, by evidence
+that holds wherever the previous run could have stopped.
 
-The test: what happens if this runs twice? What if the previous run crashed at every possible point? If the answer depends on what was left behind, add a reconciliation step.
+## Procedure
+
+1. Derive each step from the state that exists, not from what the previous run
+   meant to do.
+2. Read the current state. Compare it to the goal. Apply only the difference.
+3. Write to a temporary path. Rename it into place.
+4. Make sure the next run can recognise anything the run leaves behind as
+   stale.
+
+## Tests
+
+- What happens if this runs twice?
+- What happens if the previous run crashed at every possible point?
+
+If the answer depends on what the previous run left behind, add a
+reconciliation step.

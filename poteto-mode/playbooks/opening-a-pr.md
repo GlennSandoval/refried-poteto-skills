@@ -1,9 +1,31 @@
 ### Opening a PR
 
-Use this playbook when a PR is requested or authorised, not for read-only work.
+Use this playbook when a PR is requested or authorised. Do not use it for
+read-only work.
 
-Work from an appropriate branch or worktree and keep unrelated work out of it. Shape small, landable commits. Before committing, inspect the diff and remove unnecessary code and prose.
+#### Format
 
-Title: `type(scope): subject`, naming a real symbol when one carries the change. Body: a one-minute briefing under 40 lines with these `##` headings in order, dropping empty ones: `## Why`, `## What changed`, `## Scope`, `## Tradeoffs` (only rejected alternatives a reviewer would otherwise ask about), `## Blast Radius`, `## Verification`.
+- Title: `type(scope): subject`. Name a real symbol when one carries the
+  change.
+- Body: a one-minute briefing under 40 lines. Use these `##` headings in this
+  order and drop the empty ones:
+  1. `## Why`
+  2. `## What changed`
+  3. `## Scope`
+  4. `## Tradeoffs` (only rejected alternatives that a reviewer would otherwise
+     ask about)
+  5. `## Blast Radius`
+  6. `## Verification`
 
-Stack follow-ups by base branch. Open PRs ready for review using an available forge tool. For GitHub, `gh pr create` opens a ready PR unless `--draft` is passed. If no forge access is available, provide the branch and PR description and report the limitation. Opening a PR does not start a babysit.
+#### Procedure
+
+1. Work from an appropriate branch or worktree. Keep unrelated work out of it.
+2. Shape small, landable commits.
+3. Before you commit, inspect the diff and remove unnecessary code and prose.
+4. Stack follow-ups by base branch.
+5. Open the PR ready for review with an available forge tool. On GitHub,
+   `gh pr create` opens a ready PR unless you pass `--draft`.
+6. If no forge access is available, provide the branch and the PR description,
+   and report the limitation.
+
+Opening a PR does not start a babysit.

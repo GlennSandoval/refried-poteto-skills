@@ -8,5 +8,9 @@ description: "Apply when refactoring, evaluating diff size, or tempted to add ab
 Apply this skill only when the user requests it or another active skill routes
 to it.
 
-- **Consolidate decisions.** Do not repeat the same choice in several places. Put it behind one source of truth and pass the result as a simple flag.
-- **Minimize the diff.** Make the smallest change that solves the problem. Fewer lines beat "elegant" boilerplate.
+## Rules
+
+- **Consolidate decisions.** Do not repeat the same choice in several places.
+  Put the choice behind one source of truth. Pass the result as a simple flag.
+- **Minimise the diff.** Make the smallest change that solves the problem.
+  Fewer lines are better than "elegant" boilerplate.

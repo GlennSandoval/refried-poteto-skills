@@ -8,6 +8,20 @@ description: "Sketch types, signatures, and module structure before code, then s
 Apply this skill only when the user requests it or another active skill routes
 to it.
 
-Before writing code, trace every system the change touches, then sketch two different shapes for it (types, signatures, module boundaries) and pick the one where each piece of state has one owner, each task has one way to do it, and callers need to know least. Redesign instead of patching if workarounds repeat.
+Writing code first can lock in the wrong shape. This skill fixes the shape
+before the code exists. A good shape gives each piece of state one owner, gives
+each task one way to do it, and asks callers to know as little as possible.
 
-For a large or contested design, run the **arena** skill instead of sketching alone.
+## Design the shape
+
+1. Trace every system the change touches.
+2. Sketch two different shapes for the change. Include types, signatures, and
+   module boundaries.
+3. Pick the shape where each piece of state has one owner, each task has one
+   way to do it, and callers need to know least.
+4. If workarounds repeat, redesign instead of patching.
+
+## Contested designs
+
+For a large or contested design, run the **arena** skill instead of sketching
+alone.

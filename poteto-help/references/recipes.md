@@ -1,9 +1,9 @@
 # Prompts worth copying
 
-Swap in the real paths, skills and done checks. Informal wording works. Ask for
-skills by name; use the host's invocation syntax if it has one, or read the
-installed skill file directly. Unattended and independent work depend on the
-host's capabilities and permissions.
+Replace the placeholders with the real paths, skills and done checks. Informal
+wording works. Ask for skills by name. Use the host's invocation syntax if it
+has one, or read the installed skill file directly. Unattended and independent
+work depend on the host's capabilities and permissions.
 
 ## Understand
 
@@ -23,7 +23,7 @@ host's capabilities and permissions.
 - Bug with a cheap test: `Use poteto-mode to repro <bug> first. If there's a cheap test path, use tdd. Then fix and rerun.`
 - Feature: `Use poteto-mode to add <behaviour>. <current output> stays byte-identical. Verify both.`
 - Refactor: `Use poteto-mode to move <code> into one module, with zero behaviour change. Record the current output first and prove it's unchanged after.`
-- Perf: `Use poteto-mode. <operation> takes <time> on <fixture>. Trace it, fix the measured cause, and show me before and after.`
+- Performance: `Use poteto-mode. <operation> takes <time> on <fixture>. Trace it, fix the measured cause, and show me before and after.`
 
 ## Design and plan
 

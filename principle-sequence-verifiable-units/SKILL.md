@@ -8,8 +8,29 @@ description: "Apply to multi-step work (sweeps, migrations, runs of similar edit
 Apply this skill only when the user requests it or another active skill routes
 to it.
 
-Order work as small units that each end in a state you can check, and do not advance until the current one is green.
+## Concept
 
-In a sweep, migration, or run of similar edits, each unit is a bracket: known-good state, one change, run the check, proceed. Run the per-unit check even when a tool does the edits.
+Order work as small units. Each unit ends in a state that you can check. Do not
+advance until the current unit is green.
 
-Deliver in the order that proves the work: the failing test first, then the fix. The subtraction before the reshape. The baseline before the treatment. Each commit lands on its own.
+## Procedure for sweeps and migrations
+
+Use this procedure for a sweep, a migration, or a run of similar edits. Treat
+each unit as a bracket:
+
+1. Start from a known-good state.
+2. Make one change.
+3. Run the check.
+4. Proceed only when the check passes.
+
+Run the per-unit check even when a tool does the edits.
+
+## Order of delivery
+
+Deliver in the order that proves the work:
+
+- Deliver the failing test first, then the fix.
+- Deliver the subtraction before the reshape.
+- Deliver the baseline before the treatment.
+
+Each commit lands on its own.

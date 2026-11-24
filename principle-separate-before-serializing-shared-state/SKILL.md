@@ -3,11 +3,31 @@ name: principle-separate-before-serializing-shared-state
 description: "Apply when concurrent actors might write to the same file, branch, key, or state object. Eliminate the sharing first; serialize structurally only when one shared writer is a real invariant."
 ---
 
-# Separate Before Serializing Shared State
+# Separate before serializing shared state
 
 Apply this skill only when the user requests it or another active skill routes
 to it.
 
-When concurrent actors might write the same file, branch, key, or object, first ask whether they need one shared object or are publishing independent facts. Default to giving each actor its own file, key, branch, or state directory, and merge only where the state is read. Two workers writing their own field into one `state.json` is still shared mutation.
+## Concept
 
-Only when one shared write target is a real invariant, serialize access structurally (a lockfile, a single writer, sequential phases, compare-and-swap). Instructions are not concurrency control, and "we need a lock" is a smell to check first.
+Concurrent actors might write the same file, branch, key, or object. Before you
+add any coordination, decide whether they need one shared object or are
+publishing independent facts.
+
+Two workers that write their own field into one `state.json` still share
+mutation.
+
+Instructions are not concurrency control. Treat "we need a lock" as a smell,
+and check the alternative first.
+
+## Procedure
+
+1. Give each actor its own file, key, branch, or state directory. This is the
+   default.
+2. Merge the separate state only where it is read.
+3. If one shared write target is a real invariant, serialize access
+   structurally. Use one of these:
+   - A lockfile.
+   - A single writer.
+   - Sequential phases.
+   - Compare-and-swap.

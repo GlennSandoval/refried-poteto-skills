@@ -8,4 +8,12 @@ description: "Use for 'why does X work this way', 'why we picked Y', design rati
 Apply this skill only when the user requests it or another active skill routes
 to it.
 
-Answer from the record, not the code: read the commits and PR discussions that introduced the target and each later change, and other sources if the trail is thin. Cite what the authors wrote, mark your own inferences as inferences, and say what the record does not answer.
+This skill answers from the record, not from the code. The record shows what
+the authors decided and why.
+
+1. Read the commits and PR discussions that introduced the target.
+2. Read the commits and PR discussions for each later change.
+3. If the trail is thin, read other sources.
+4. Cite what the authors wrote.
+5. Mark your own inferences as inferences.
+6. State what the record does not answer.

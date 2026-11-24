@@ -8,6 +8,13 @@ description: "Apply when you catch yourself writing the same instruction a secon
 Apply this skill only when the user requests it or another active skill routes
 to it.
 
-If the lesson needs judgment and cannot be encoded, make the instruction more prominent and add an example of the failure mode.
+## Principle
 
-**Corollary:** If the fix is structural, only use the structural fix. The instruction is the symptom.
+If the fix is structural, use only the structural fix. The instruction is the
+symptom.
+
+## Procedure
+
+1. Encode the rule as a lint, a metadata flag, a runtime check, or a script.
+2. If the lesson needs judgment and you cannot encode it, make the instruction
+   more prominent. Add an example of the failure mode.

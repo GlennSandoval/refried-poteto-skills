@@ -8,73 +8,111 @@ description: "Coordinate workers and return one report. Use for 'swarm this', pa
 Apply this skill only when the user requests it or another active skill routes
 to it.
 
-## Start
-
-Track the phases with the host's task tracking if available, or a checklist
-otherwise.
+This skill coordinates workers and returns one report. It has four phases:
 
 1. Frame
 2. Fan out
 3. Aggregate
 4. Report
 
+## Start
+
+Track the phases with the task tracking of the host if available. Otherwise,
+use a checklist.
+
 ## Phase A: Frame
 
-1. State the done predicate and the artifact or report the swarm must return.
-2. Choose the shape. Partition into slices, race N workers on identical briefs, or mix both. For a race or mixed shape, declare `first pass`, `rank all`, or `best-of` before spawning.
-3. Explicitly read `~/.config/pstack/models.md` if it exists; it is optional
-   and is not automatically injected. Lines are `role: entry[, entry...]`:
-   split at the first colon and split entries on commas, trimming whitespace.
-   Ignore blank lines, lines whose first non-whitespace character is `#`, and
-   unrelated roles. An empty value, empty entry, duplicate role line, or multiple
-   entries for the single-valued `swarm workers` role is invalid: use its
-   default and report the problem. If the file exists but cannot be read, use
-   the default and report that configuration could not be consulted. The default
-   is `inherit`: leave model selection unset so the host uses its inherited or
-   default model. Use a configured identifier only when the host supports per-agent
-   model selection and confirms it is available; otherwise inherit and report
-   the fallback.
-   Do not guess model identifiers. For a model race, name each confirmed model
-   up front. If distinct models cannot be selected, run distinct approaches
-   instead and report that the model comparison could not be performed.
-   Each worker uses the selected role model unless a race assigns another
+1. State the done predicate and the artefact or report that the swarm must
+   return.
+2. Choose the shape: partition into slices, race N workers on identical briefs,
+   or mix both. For a race or mixed shape, declare `first pass`, `rank all`, or
+   `best-of` before you spawn.
+3. Choose the worker model. See [Read the model configuration](#read-the-model-configuration).
+4. Give each worker its own writable output when it writes.
+5. When workers verify or measure commits, name the exact SHAs in each brief.
+   A measurement brief also names the method: the sample count, what one
+   sample is, and the order. The worker records both in its result.
+
+### Read the model configuration
+
+Read `~/.config/pstack/models.md` explicitly if it exists. The file is
+optional. The host does not inject it automatically.
+
+1. Parse each line as `role: entry[, entry...]`. Split at the first colon.
+   Split entries on commas. Trim whitespace.
+2. Ignore blank lines, lines whose first non-whitespace character is `#`, and
+   unrelated roles.
+3. Treat the `swarm workers` role as invalid if it has an empty value, an empty
+   entry, a duplicate line, or multiple entries (the role is single-valued).
+   Use its default and report the problem.
+4. If the file exists but you cannot read it, use the default and report that
+   you could not consult the configuration.
+5. The default is `inherit`. It leaves model selection unset, so that the host
+   uses its inherited or default model.
+6. Use a configured identifier only when the host supports per-agent model
+   selection and confirms that the identifier is available. Otherwise,
+   inherit and report the fallback. Do not guess model identifiers.
+7. Each worker uses the selected role model, unless a race assigns another
    confirmed, selectable model to its arm.
-4. Give each worker its own writable output when it writes. When workers verify
-   or measure commits, each brief names the exact SHAs. A measurement brief also
-   names the method (sample count, what one sample is, order). The worker
-   records both in its result.
+8. For a model race, name each confirmed model up front. If you cannot select
+   distinct models, run distinct approaches instead. Report that the model
+   comparison could not be performed.
 
 ## Phase B: Fan out
 
-Use the host's available subagent mechanism to launch workers concurrently when
-possible, subject to its permissions, capacity, and access to the required
-files. Select any non-default base explicitly using capabilities the host
-actually supports. Do not assume remote execution can access local files or
-uncommitted changes. If isolation is unavailable, use separate output locations
-or run writing slices serially without overwriting user changes. If unattended
-execution is unavailable, run synchronously and report that limitation rather
-than promising background work.
+### Launch the workers
 
-Without subagents, execute the briefs sequentially, recording each result
-separately. These passes share context and are not independent; report that
-limit and do not claim independent coverage or a model race.
+1. Use the subagent mechanism that the host provides to launch workers
+   concurrently when possible. Respect its permissions, its capacity, and its
+   access to the required files.
+2. Select any non-default base explicitly, using capabilities that the host
+   actually supports.
+3. Do not assume that remote execution can access local files or uncommitted
+   changes.
+4. If isolation is unavailable, use separate output locations, or run writing
+   slices serially. Do not overwrite user changes.
+5. If unattended execution is unavailable, run synchronously and report that
+   limitation. Do not promise background work.
 
-Every brief stands alone. Include the goal, scope, exact slice or race arm, how to verify, and what to report. Reports use `PASS`, `ISSUES`, or `BLOCKED` with evidence. A worker that can prove a defect reports `ISSUES` and lists every issue it can prove, not only the first.
+If subagents are not available, execute the briefs sequentially. Record each
+result separately. These passes share context and are not independent. Report
+that limit. Do not claim independent coverage or a model race.
 
-If a worker drops out, proceed with the remaining results and note it. If a
-model selection is rejected, use the host default and report the fallback.
+### Write the briefs
+
+Make every brief stand alone. Include the goal, the scope, the exact slice or
+race arm, how to verify, and what to report.
+
+Workers report `PASS`, `ISSUES`, or `BLOCKED`, with evidence. A worker that can
+prove a defect reports `ISSUES` and lists every issue that it can prove, not
+only the first.
+
+### Handle failures
+
+- If a worker drops out, proceed with the remaining results and note the
+  dropout.
+- If the host rejects a model selection, use the host default and report the
+  fallback.
 
 ## Phase C: Aggregate
 
-Read the terminal results. Drop a result that does not record the SHAs and
-method its brief names, and retry that brief once using an available worker or
-a sequential pass. After a second miss, record a gap. A gap does not count as a
-pass. For coverage, every required slice needs a result. For a race, apply the
-selection rule declared up front: first pass, rank all, or best-of. Do not
-paste raw worker dumps.
+1. Read the terminal results.
+2. Drop a result that does not record the SHAs and the method that its brief
+   names. Retry that brief once, using an available worker or a sequential
+   pass.
+3. After a second miss, record a gap. A gap does not count as a pass.
+4. For coverage, make sure that every required slice has a result.
+5. For a race, apply the selection rule that you declared up front: first pass,
+   rank all, or best-of.
+6. Do not paste raw worker dumps.
 
 ## Phase D: Report
 
-Return one consolidated in-chat report with a result table, issue one-liners,
-gaps or dropouts, model fallbacks, independence limitations, and the race rule
-when used.
+Return one consolidated in-chat report. Include these items:
+
+- a result table
+- issue one-liners
+- gaps or dropouts
+- model fallbacks
+- independence limitations
+- the race rule, when used

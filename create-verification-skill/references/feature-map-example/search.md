@@ -1,6 +1,7 @@
 # Search notes
 
-Search lets a user find notes by title or body text, inspect a matching note, and distinguish no matches from an unavailable search.
+Search lets a user find notes by title or body text, inspect a matching note,
+and tell the difference between no matches and an unavailable search.
 
 ## Sub-features
 
@@ -22,7 +23,8 @@ Search lets a user find notes by title or body text, inspect a matching note, an
 Preconditions:
 
 - Notes is healthy at `http://127.0.0.1:4173`.
-- The disposable data directory contains `Quarterly plan` with body text `Draft budget`.
+- The disposable data directory contains `Quarterly plan` with body text
+  `Draft budget`.
 - `control-notes doctor` reports the expected URL and data directory.
 
 - **Toolbar entry.** Choose the `Search` button. Run `control-notes browser click --role button --name "Search"`. A dialog named `Search notes` appears with focus in its searchbox.
@@ -38,8 +40,12 @@ Preconditions:
 
 ## Gotchas
 
-- Pressing `/` while the editor or searchbox has focus inserts text instead of opening search.
-- Results update after a short debounce. Wait for the results list or empty status, not a fixed sleep.
+- Pressing `/` while the editor or searchbox has focus inserts text. It does
+  not open search.
+- Results update after a short debounce. Wait for the results list or the empty
+  status. Do not use a fixed sleep.
 - Archived notes are excluded unless the user enables `Include archived`.
-- The CLI defaults to human-readable output. Use `--format json` for stable assertions.
-- Opening a result changes browser state. Reopen search before proving another query.
+- The CLI defaults to human-readable output. Use `--format json` for stable
+  assertions.
+- Opening a result changes the browser state. Reopen search before you prove
+  another query.

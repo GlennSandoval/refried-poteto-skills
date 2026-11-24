@@ -1,6 +1,7 @@
 # Create a note
 
-Create note lets a user save a titled note from the browser or CLI, cancel an unfinished draft, and confirm the saved note from a second user-facing view.
+Create note lets a user save a titled note from the browser or CLI, cancel an
+unfinished draft, and confirm the saved note from a second user-facing view.
 
 ## Sub-features
 
@@ -21,7 +22,8 @@ Preconditions:
 
 - Notes is healthy at `http://127.0.0.1:4173`.
 - No note is titled `Release checklist`.
-- `control-notes doctor` reports the expected URL and disposable data directory.
+- `control-notes doctor` reports the expected URL and disposable data
+  directory.
 
 - **Open editor.** Choose `New note`. Run `control-notes browser click --role button --name "New note"`. A form named `Note editor` appears with focus in the `Title` textbox.
 - **Enter content.** Type the title and body. Run `control-notes browser fill --role textbox --name "Title" --value "Release checklist"` and `control-notes browser fill --role textbox --name "Body" --value "Tag and publish"`. The `Save note` button becomes enabled.
@@ -33,7 +35,10 @@ Preconditions:
 
 ## Gotchas
 
-- Pressing `n` while a textbox has focus types the character instead of opening a new editor.
-- Titles are trimmed on save. Assert the rendered title, not the draft input value.
-- A save status alone is insufficient proof. Reopen the note from the list.
-- Remove `Release checklist` and `CLI note` during fixture cleanup, but retain their proof artifacts.
+- Pressing `n` while a textbox has focus types the character. It does not open
+  a new editor.
+- Titles are trimmed on save. Assert the rendered title, not the draft input
+  value.
+- A save status alone is not sufficient proof. Reopen the note from the list.
+- Remove `Release checklist` and `CLI note` during fixture cleanup. Keep their
+  proof artifacts.

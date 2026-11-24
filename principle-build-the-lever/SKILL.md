@@ -8,9 +8,28 @@ description: "Apply to any non-trivial work, not just bulk work: edits, migratio
 Apply this skill only when the user requests it or another active skill routes
 to it.
 
-When the work isn't trivial, build the tool that does it (a codemod, script, generator, or rerunnable check) instead of doing it by hand. The bar is triviality, not repetition. Skip the tool only for a couple of obvious edits.
+## Principle
 
-- Do the first unit by hand, then build the tool and prove it by rerunning it on that unit. Make it safe to rerun.
-- A deterministic tool beats fan-out. When you do fan out, write the recipe, the verification contract, and the fences as one skill the delegates read and cannot edit.
-- Applying this produces a file. No script, codemod, generator, or delegate skill in the diff means you didn't apply it. Commit it when the work outlives the session.
-- Build the smallest script that does or proves the job, never a framework.
+When the work is not trivial, build the tool that does it instead of doing it
+by hand. The tool can be a codemod, a script, a generator, or a rerunnable
+check. The bar is triviality, not repetition. Skip the tool only for a couple
+of obvious edits.
+
+A deterministic tool is better than fan-out. If you do fan out, the delegates
+need a fixed recipe, so use the skill described in the procedure.
+
+## Procedure
+
+1. Do the first unit by hand.
+2. Build the tool. Make it safe to rerun.
+3. Prove the tool: rerun it on the first unit.
+4. If you fan out, write the recipe, the verification contract, and the fences
+   as one skill. The delegates read the skill and cannot edit it.
+5. Build the smallest script that does or proves the job. Do not build a
+   framework.
+6. If the work outlives the session, commit the tool.
+
+## Check
+
+This principle produces a file. If the diff has no script, codemod, generator,
+or delegate skill, you did not apply it.

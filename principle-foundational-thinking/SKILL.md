@@ -8,8 +8,25 @@ description: "Apply before writing logic: choosing core types and data structure
 Apply this skill only when the user requests it or another active skill routes
 to it.
 
-Get the data shape right before writing logic. Define core types early, trace every access pattern, and choose structures that match the dominant paths. DRY the structure, not every line.
+## Principle
 
-Before sharing state between actors, ask what happens if another actor modifies it concurrently. If the answer is not "nothing", isolate.
+Get the data shape right before you write logic. DRY the structure, not every
+line.
 
-Scaffold first. Whatever helps every later phase (CI, tests, shared types) goes first, after removing dead code. Keep commits small and single-purpose.
+## Data shape
+
+1. Define the core types early.
+2. Trace every access pattern.
+3. Choose structures that match the dominant paths.
+
+## Shared state
+
+Before you share state between actors, ask what happens if another actor
+modifies it concurrently. If the answer is not "nothing", isolate the state.
+
+## Sequence of work
+
+1. Remove dead code.
+2. Scaffold first. Do first whatever helps every later phase, such as CI,
+   tests, and shared types.
+3. Keep commits small and single-purpose.

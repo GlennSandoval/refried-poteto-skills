@@ -1,14 +1,56 @@
 # Render a chart
 
-Render each `.mmd` file that you show with the npm package `pele@1.9.0`, and give the user the SVG. Install Pele once, outside the repo. Write each SVG next to its `.mmd` file, with the same name. The API is at https://pele.run/api. Pass `{ limit: 1_000_000, outputLimit: 8_000_000, maxEdges: 10_000 }` as the options of `render`. Pele's defaults are smaller than a chart of 500 states can be. When Pele throws a `PeleError`, show the user the Mermaid text and the error.
+## Render with Pele
 
-## Colors
+1. Render each `.mmd` file that you show with the npm package `pele@1.9.0`.
+2. Give the user the SVG.
+3. Install Pele once, outside the repository.
+4. Write each SVG next to its `.mmd` file, with the same name.
 
-Pele ignores Mermaid `theme` and `themeVariables`. Set its `--pele-*` CSS variables on `.pele`. https://pele.run/theming lists them. The command gives each state the color class of its group, such as `class sN teal`. It marks each bad state with `class sN breaks` or `class sN mayBreak`, each state on the shortest path to a bug with `class sN bugPath`, and each state that a PROPERTY counterexample repeats forever with `class sN repeats`. Pele puts these classes on the state's node. Color the classes with CSS.
+The API is at https://pele.run/api.
 
-The `.mmd` file has a `classDef` line for `breaks` and for `mayBreak`, so that any Mermaid viewer shows the bug marks. It has no `classDef` for the group colors, `bugPath`, or `repeats`. Pele writes each `classDef` color as a `style` attribute on the node, and a `style` attribute wins over a normal CSS rule. So the rules for the marks below use `!important`. Without it, a dark theme keeps the light mark colors. A bug mark sets the fill and the text, and `bugPath` and `repeats` set the border. Put the mark rules after the group colors, so that a mark shows over the group color.
+Pass `{ limit: 1_000_000, outputLimit: 8_000_000, maxEdges: 10_000 }` as the
+options of `render`. The defaults of Pele are smaller than a chart of 500 states
+can be.
 
-These colors are suggestions. They are the colors of the old skill. Put them in a `<style>` element at the start of each SVG. Each SVG then follows the light or dark setting of the viewer.
+When Pele throws a `PeleError`, show the user the Mermaid text and the error.
+
+## Colours
+
+### How Pele applies colours
+
+Pele ignores Mermaid `theme` and `themeVariables`. Set its `--pele-*` CSS
+variables on `.pele`. https://pele.run/theming lists them.
+
+The command adds these classes to the `.mmd` file:
+
+- `class sN teal`: the colour class of the group of a state.
+- `class sN breaks` or `class sN mayBreak`: a bad state.
+- `class sN bugPath`: a state on the shortest path to a bug.
+- `class sN repeats`: a state that a PROPERTY counterexample repeats forever.
+
+Pele puts these classes on the node of the state. Colour the classes with CSS.
+
+### Why the mark rules use `!important`
+
+The `.mmd` file has a `classDef` line for `breaks` and for `mayBreak`, so that
+any Mermaid viewer shows the bug marks. It has no `classDef` for the group
+colours, `bugPath`, or `repeats`.
+
+Pele writes each `classDef` colour as a `style` attribute on the node, and a
+`style` attribute wins over a normal CSS rule. So the rules for the marks below
+use `!important`. Without it, a dark theme keeps the light mark colours.
+
+### Write the style element
+
+1. Put the CSS in a `<style>` element at the start of each SVG. Each SVG then
+   follows the light or dark setting of the viewer.
+2. Put the mark rules after the group colours, so that a mark shows over the
+   group colour.
+3. A bug mark sets the fill and the text. `bugPath` and `repeats` set the
+   border.
+
+The colours below are suggestions. They are the colours of the old skill.
 
 ```css
 .pele {
